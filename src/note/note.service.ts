@@ -1,7 +1,9 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { Note } from './note.entity';
-import { CreateNoteParams } from './note.dto';
+import { AddMaintenanceParams, CreateNoteParams } from './note.dto';
+import { MaintenanceRec } from 'src/maintenanceRec/maintenanceRec.entity';
+import { MaintenanceRecService } from 'src/maintenanceRec/maintenanceRec.service';
 
 @Injectable()
 export class NoteService {
@@ -14,7 +16,21 @@ export class NoteService {
     return this.noteRepository.find();
   }
 
-  async createNotes(createNoteParams: CreateNoteParams): Promise<Note> {
+  async getNoteByID(id: string): Promise<Note> {
+    return await this.noteRepository.findOne({where:{id:id}},);
+  }
+
+  async getNoteWithMaintenance(): Promise<Note[]> {
+    const returnNotes = await this
+    .noteRepository
+    .createQueryBuilder("note")
+    .leftJoinAndSelect("note.maintenanceRec", "maintenanceRec")
+    .getMany()
+
+    return returnNotes;
+  }
+
+  async createNote(createNoteParams: CreateNoteParams): Promise<Note> {
     var newNote = new Note();
     newNote.noteName = createNoteParams.noteName;
     newNote.type = createNoteParams.type;
@@ -22,6 +38,7 @@ export class NoteService {
     newNote.model = createNoteParams.model;
     newNote.price = createNoteParams.price;
     // newNote.company.name = createNoteParams.companyName;
+    newNote.maintenanceRec = [];
     newNote.notification = createNoteParams.notification;
     newNote.notificationPeriod = createNoteParams.notificationPeriod;
     newNote.note = createNoteParams.note
@@ -29,7 +46,7 @@ export class NoteService {
     return await this.noteRepository.save(newNote);
   }
 
-  async deleteNotes(id: string) {
+  async deleteNote(id: string) {
     return await this.noteRepository.delete(id);
   }
 }

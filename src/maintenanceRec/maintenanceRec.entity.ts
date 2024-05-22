@@ -1,9 +1,15 @@
 import { Note } from 'src/note/note.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
 export class MaintenanceRec {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -13,11 +19,13 @@ export class MaintenanceRec {
   engineerName: string;
 
   @Column()
-  date: string;
+  date: Date;
 
-  @Column()
+  @Column('decimal', { precision: 2, scale: 2 })
   price: number;
 
-  @ManyToOne(() => Note, (note) => note.id)
+  @ManyToOne(() => Note, (note) => note.maintenanceRec, {
+    onDelete: 'CASCADE',
+  })
   note: Note;
 }

@@ -10,11 +10,11 @@ export class ContactService {
     private contactRepository: Repository<Contact>,
   ) {}
 
-  async getCompanies(): Promise<Contact[]> {
+  async getContacts(): Promise<Contact[]> {
     return this.contactRepository.find();
   }
 
-  async createCompany(createContactParams: CreateContactParams): Promise<Contact> {
+  async createContact(createContactParams: CreateContactParams): Promise<Contact> {
     var newContact = new Contact();
     newContact.tel = createContactParams.tel;
     newContact.name = createContactParams.name;
@@ -23,7 +23,7 @@ export class ContactService {
     return await this.contactRepository.save(newContact);
   }
 
-  async deleteCompany(id: string) {
+  async deleteContact(id: string) {
     return await this.contactRepository.delete(id);
   }
 }

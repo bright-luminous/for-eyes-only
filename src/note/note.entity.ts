@@ -1,17 +1,24 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, OneToMany } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm';
 import { Company } from 'src/company/company.entity';
 import { Contact } from 'src/contact/contact.entity';
 import { MaintenanceRec } from 'src/maintenanceRec/maintenanceRec.entity';
 
 @Entity()
 export class Note {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 100 })
   noteName: string;
 
-  @Column({length: 30})
+  @Column({ length: 30 })
   type: string;
 
   @Column({ length: 100 })
@@ -29,7 +36,9 @@ export class Note {
   @ManyToOne(() => Contact, (contact) => contact.id)
   service: Contact;
 
-  @OneToMany(() => MaintenanceRec, (maintenanceRec) => maintenanceRec.id)
+  @OneToMany(() => MaintenanceRec, (maintenanceRec) => maintenanceRec.note, {
+    cascade: true,
+  })
   maintenanceRec: MaintenanceRec[];
 
   @Column()

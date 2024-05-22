@@ -1,23 +1,28 @@
-import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { CreateNoteParams } from './note.dto';
+import { AddMaintenanceParams, CreateNoteParams } from './note.dto';
 
 @Controller('note')
 export class NoteController {
   constructor(private noteService: NoteService) {}
 
   @Get()
-  getJobs() {
+  getNote() {
     return this.noteService.getNotes();
+  }
+
+  @Get('rec')
+  getNoteWithRec() {
+    return this.noteService.getNoteWithMaintenance();
   }
 
   @Post()
   async createNote(@Body() createNoteParams: CreateNoteParams){
-    return this.noteService.createNotes(createNoteParams);
+    return this.noteService.createNote(createNoteParams);
   }
 
   @Delete()
   async deleteNote(@Query('id') id: string){
-    return this.noteService.deleteNotes(id);
+    return this.noteService.deleteNote(id);
   }
 }

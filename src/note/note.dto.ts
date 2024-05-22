@@ -10,6 +10,11 @@ export class CreateNoteParams {
   note: string;
 }
 
+export class AddMaintenanceParams {
+    noteID: string;
+    maintenanceID: string;
+}
+
 export class Company {
     name: string;
     contacts: Contacts[];
