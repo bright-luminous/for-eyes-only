@@ -14,6 +14,10 @@ export class ContactService {
     return this.contactRepository.find();
   }
 
+  async getContactByID(id: string): Promise<Contact> {
+    return await this.contactRepository.findOne({where:{id:id}},);
+  }
+
   async createContact(createContactParams: CreateContactParams): Promise<Contact> {
     var newContact = new Contact();
     newContact.tel = createContactParams.tel;

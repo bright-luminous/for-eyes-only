@@ -30,10 +30,10 @@ export class Note {
   @Column('decimal', { precision: 2, scale: 2 })
   price: number;
 
-  @ManyToOne(() => Company, (company) => company.id)
+  @ManyToOne(() => Company, (company) => company.note)
   company: Company;
 
-  @ManyToOne(() => Contact, (contact) => contact.id)
+  @ManyToOne(() => Contact, (contact) => contact.note)
   service: Contact;
 
   @OneToMany(() => MaintenanceRec, (maintenanceRec) => maintenanceRec.note, {

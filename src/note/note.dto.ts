@@ -10,9 +10,14 @@ export class CreateNoteParams {
   note: string;
 }
 
-export class AddMaintenanceParams {
+export class AddCompanyParams {
     noteID: string;
-    maintenanceID: string;
+    companyID: string;
+}
+
+export class AddServiceParams {
+    noteID: string;
+    contactID: string;
 }
 
 export class Company {

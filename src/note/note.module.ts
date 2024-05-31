@@ -3,10 +3,11 @@ import { NoteController } from './note.controller';
 import { NoteService } from './note.service';
 import { noteProviders } from './note.providers';
 import { DatabaseModule } from 'src/database/database.module';
-import { MaintenanceRecModule } from 'src/maintenanceRec/maintenanceRec.module';
+import { CompanyModule } from 'src/company/company.module';
+import { ContactModule } from 'src/contact/contact.module';
 
 @Module({
-  imports: [DatabaseModule],
+  imports: [DatabaseModule, CompanyModule, ContactModule],
   controllers: [NoteController],
   providers: [NoteService, ...noteProviders],
   exports: [NoteService]

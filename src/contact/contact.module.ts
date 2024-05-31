@@ -7,6 +7,7 @@ import { ContactController } from './contact.controller';
 @Module({
   imports: [DatabaseModule],
   controllers: [ContactController],
-  providers: [...contactProviders, ContactService]
+  providers: [...contactProviders, ContactService],
+  exports: [ContactService]
 })
 export class ContactModule {}

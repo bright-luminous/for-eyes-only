@@ -14,6 +14,10 @@ export class CompanyService {
     return this.companyRepository.find();
   }
 
+  async getCompanyByID(id: string): Promise<Company> {
+    return await this.companyRepository.findOne({where:{id:id}},);
+  }
+
   async createCompany(createCompanyParams: CreateCompanyParams): Promise<Company> {
     var newCompany = new Company();
     newCompany.name = createCompanyParams.name;
