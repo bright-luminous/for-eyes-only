@@ -5,6 +5,7 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
   ManyToOne,
+  CreateDateColumn,
 } from 'typeorm';
 
 @Entity()
@@ -28,4 +29,7 @@ export class MaintenanceRec {
     onDelete: 'CASCADE',
   })
   note: Note;
+
+  @CreateDateColumn()
+  createAt: Date;
 }

@@ -1,6 +1,6 @@
 import { Contact } from 'src/contact/contact.entity';
 import { Note } from 'src/note/note.entity';
-import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, CreateDateColumn } from 'typeorm';
 
 @Entity()
 export class Company {
@@ -15,4 +15,7 @@ export class Company {
 
   @OneToMany(() => Note, (note) => note.company)
   note: Note[]
+
+  @CreateDateColumn()
+  createAt: Date;
 }

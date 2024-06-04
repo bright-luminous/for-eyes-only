@@ -21,9 +21,11 @@ export class NoteService {
   ) {}
 
   async getNotes(): Promise<Note[]> {
-    return this.noteRepository.find({order: {
-      notification: "DESC",
-  },});
+    return this.noteRepository.find({
+      order: {
+        createAt: 'DESC',
+      },
+    });
   }
 
   async getNoteByID(id: string): Promise<Note> {
@@ -109,12 +111,15 @@ export class NoteService {
 
   async dailyNotification() {
     var todayDate = new Date();
-    var notesArr = await this.noteRepository.find();
+    // todayDate.setHours(todayDate.getHours() + 7);
+    var notesArr = await this.getNoteFullDetail();
     notesArr.forEach((note) => this.checkDate(todayDate, note));
+    // this.getToken()
   }
 
   async checkDate(todayDate: Date, currentNote: Note) {
-    var token = 'P4oVcDObxUF7dNSS81dvb4Sv5tDFSYiIhwnU4HG0kco';
+    var token = 'P4oVcDObxUF7dNSS81dvb4Sv5tDFSYiIhwnU4HG0kco'; // test one to one
+    // var token = 'At1iCRbPrkf9bdyyzzoYwlQPJkddVMgDPTrc8sdauzU'; //test group
     const url_line_notification = 'https://notify-api.line.me/api/notify';
 
     if (
@@ -122,9 +127,25 @@ export class NoteService {
       currentNote.notification.getMonth() == todayDate.getMonth() &&
       currentNote.notification.getFullYear() == todayDate.getFullYear()
     ) {
+      var newMessage =
+        currentNote.noteName +
+        '\nDetail : ' +
+        currentNote.note +
+        '\nContact : ';
+      if (Object.is(currentNote.service, null)) {
+        newMessage =
+          newMessage + `\n - lineID: no contact info\n - Tel: no contact info`;
+      } else {
+        newMessage =
+          newMessage +
+          `\n - lineID: ${currentNote.service.lineID}\n - Tel: ${currentNote.service.tel}`;
+      }
+
       const response = await axios.post(
         url_line_notification,
-        qs.stringify({ message: currentNote.noteName + '\nDetail : ' + currentNote.note }),
+        qs.stringify({
+          message: newMessage,
+        }),
         {
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
@@ -136,7 +157,8 @@ export class NoteService {
   }
 
   async getToken() {
-    const code = 'Hb3YRj9t5rrGztyQMSxR7c';
+    // const code = 'Hb3YRj9t5rrGztyQMSxR7c';
+    const code = 'bBPISeM3rQYrRtPEpBqrAv';
     const url_line_token = 'https://notify-bot.line.me/oauth/token';
     const response = await axios.post(
       url_line_token,

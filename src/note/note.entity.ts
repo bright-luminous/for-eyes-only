@@ -5,6 +5,7 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  CreateDateColumn,
 } from 'typeorm';
 import { Company } from 'src/company/company.entity';
 import { Contact } from 'src/contact/contact.entity';
@@ -49,4 +50,7 @@ export class Note {
 
   @Column()
   note: string;
+
+  @CreateDateColumn()
+  createAt: Date;
 }
