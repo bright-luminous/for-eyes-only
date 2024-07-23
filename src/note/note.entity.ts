@@ -28,7 +28,7 @@ export class Note {
   @Column({ length: 100 })
   model: string;
 
-  @Column('decimal', { precision: 2, scale: 2 })
+  @Column('decimal', { precision: 8, scale: 2 })
   price: number;
 
   @ManyToOne(() => Company, (company) => company.note)
