@@ -11,6 +11,11 @@ export class ContactController {
     return this.contactService.getContacts();
   }
 
+  @Get('byID')
+  getContactByID(@Query('id') id: string) {
+    return this.contactService.getContactByID(id);
+  }
+
   @Post()
   async createNote(@Body() createContactParams: CreateContactParams){
     return this.contactService.createContact(createContactParams);

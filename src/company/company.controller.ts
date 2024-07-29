@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Post, Query } from '@nestjs/common';
 import { CompanyService } from './company.service';
-import { CreateCompanyParams } from './company.dto';
+import { CreateCompanyParams, CreateCompanyWithContactParams } from './company.dto';
 
 @Controller('company')
 export class CompanyController {
@@ -11,9 +11,19 @@ export class CompanyController {
     return this.companyService.getCompanies();
   }
 
+  @Get("contact")
+  getJobsWithContact() {
+    return this.companyService.getCompanyWithMaintenance();
+  }
+
   @Post()
   async createNote(@Body() createCompanyParams: CreateCompanyParams){
     return this.companyService.createCompany(createCompanyParams);
+  }
+
+  @Post("withContact")
+  async createNoteWithContact(@Body() createCompanyWithContactParams: CreateCompanyWithContactParams){
+    return this.companyService.createCompanyWithContact(createCompanyWithContactParams);
   }
 
   @Delete()
