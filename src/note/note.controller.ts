@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { AddCompanyParams, AddServiceParams, CreateNoteParams } from './note.dto';
+import { AddCompanyParams, AddServiceParams, CreateNoteParams, CreateNoteWithDetailParams } from './note.dto';
 
 @Controller('note')
 export class NoteController {
@@ -34,6 +34,11 @@ export class NoteController {
   @Post()
   async createNote(@Body() createNoteParams: CreateNoteParams){
     return this.noteService.createNote(createNoteParams);
+  }
+
+  @Post('detail')
+  async createNoteWithDetail(@Body() createNoteParams: CreateNoteWithDetailParams){
+    return this.noteService.createNoteWithDetail(createNoteParams);
   }
 
   @Put('company')

@@ -5,6 +5,7 @@ import {
   AddCompanyParams,
   AddServiceParams,
   CreateNoteParams,
+  CreateNoteWithDetailParams,
 } from './note.dto';
 import { CompanyService } from 'src/company/company.service';
 import { ContactService } from 'src/contact/contact.service';
@@ -78,6 +79,23 @@ export class NoteService {
     newNote.model = createNoteParams.model;
     newNote.price = createNoteParams.price;
     newNote.maintenanceRec = [];
+    newNote.notification = createNoteParams.notification;
+    newNote.notificationPeriod = createNoteParams.notificationPeriod;
+    newNote.note = createNoteParams.note;
+
+    return await this.noteRepository.save(newNote);
+  }
+
+  async createNoteWithDetail(createNoteParams: CreateNoteWithDetailParams): Promise<Note> {
+    var newNote = new Note();
+    newNote.noteName = createNoteParams.noteName;
+    newNote.type = createNoteParams.type;
+    newNote.brand = createNoteParams.brand;
+    newNote.model = createNoteParams.model;
+    newNote.price = createNoteParams.price;
+    newNote.maintenanceRec = [];
+    newNote.service = await this.contactService.getContactByID(createNoteParams.contactID)
+    newNote.company = await this.companyService.getCompanyByID(createNoteParams.companyID)
     newNote.notification = createNoteParams.notification;
     newNote.notificationPeriod = createNoteParams.notificationPeriod;
     newNote.note = createNoteParams.note;
