@@ -13,7 +13,9 @@ export class Company {
   @ManyToOne(() => Contact, (contact) => contact.id)
   contacts: Contact;
 
-  @OneToMany(() => Note, (note) => note.company)
+  @OneToMany(() => Note, (note) => note.company, {
+    cascade: false,
+  })
   note: Note[]
 
   @CreateDateColumn()

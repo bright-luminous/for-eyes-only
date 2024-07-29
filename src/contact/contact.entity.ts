@@ -16,10 +16,14 @@ export class Contact {
   @Column()
   lineID: string;
 
-  @OneToMany(() => Note, (note) => note.service)
+  @OneToMany(() => Note, (note) => note.service, {
+    cascade: false,
+  })
   note: Note[]
 
-  @OneToMany(() => Company, (company) => company.contacts)
+  @OneToMany(() => Company, (company) => company.contacts, {
+    cascade: false,
+  })
   company: Company[]
 
   @CreateDateColumn()
