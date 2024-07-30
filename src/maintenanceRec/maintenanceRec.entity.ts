@@ -22,7 +22,7 @@ export class MaintenanceRec {
   @Column()
   date: Date;
 
-  @Column('decimal', { precision: 2, scale: 2 })
+  @Column('decimal', { precision: 8, scale: 2 })
   price: number;
 
   @ManyToOne(() => Note, (note) => note.maintenanceRec, {
