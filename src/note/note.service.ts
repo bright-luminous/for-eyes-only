@@ -71,6 +71,18 @@ export class NoteService {
     return returnNotes;
   }
 
+  async getNoteFullDetailByID(id: string): Promise<Note[]> {
+    const returnNotes = await this.noteRepository
+      .createQueryBuilder('note')
+      .leftJoinAndSelect('note.maintenanceRec', 'maintenanceRec')
+      .leftJoinAndSelect('note.company', 'company')
+      .leftJoinAndSelect('note.service', 'service')
+      .where("note.id = :id", {id: id})
+      .getMany();
+
+    return returnNotes;
+  }
+
   async createNote(createNoteParams: CreateNoteParams): Promise<Note> {
     var newNote = new Note();
     newNote.noteName = createNoteParams.noteName;

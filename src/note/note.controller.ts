@@ -31,6 +31,11 @@ export class NoteController {
     return this.noteService.getNoteFullDetail();
   }
 
+  @Get('fullByID')
+  getNoteFullDetailByID(@Query('id') id: string) {
+    return this.noteService.getNoteFullDetailByID(id);
+  }
+
   @Post()
   async createNote(@Body() createNoteParams: CreateNoteParams){
     return this.noteService.createNote(createNoteParams);
