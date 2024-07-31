@@ -148,8 +148,8 @@ export class NoteService {
   }
 
   async checkDate(todayDate: Date, currentNote: Note) {
-    var token = 'P4oVcDObxUF7dNSS81dvb4Sv5tDFSYiIhwnU4HG0kco'; // test one to one
-    // var token = 'At1iCRbPrkf9bdyyzzoYwlQPJkddVMgDPTrc8sdauzU'; //test group
+    // var token = 'P4oVcDObxUF7dNSS81dvb4Sv5tDFSYiIhwnU4HG0kco'; // test one to one
+    var token = 'At1iCRbPrkf9bdyyzzoYwlQPJkddVMgDPTrc8sdauzU'; //test group
     const url_line_notification = 'https://notify-api.line.me/api/notify';
 
     if (
