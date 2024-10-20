@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { Repository, UpdateResult } from 'typeorm';
 import { Note } from './note.entity';
 import {
   AddCompanyParams,
   AddServiceParams,
   CreateNoteParams,
   CreateNoteWithDetailParams,
+  UpdateNoteWithDetailParams,
 } from './note.dto';
 import { CompanyService } from 'src/company/company.service';
 import { ContactService } from 'src/contact/contact.service';
@@ -51,10 +52,10 @@ export class NoteService {
     return returnNotes;
   }
 
-  async getNoteWithService(): Promise<Note[]> {
+  async getNoteWithContact(): Promise<Note[]> {
     const returnNotes = await this.noteRepository
       .createQueryBuilder('note')
-      .leftJoinAndSelect('note.service', 'service')
+      .leftJoinAndSelect('note.contact', 'contact')
       .getMany();
 
     return returnNotes;
@@ -65,7 +66,7 @@ export class NoteService {
       .createQueryBuilder('note')
       .leftJoinAndSelect('note.maintenanceRec', 'maintenanceRec')
       .leftJoinAndSelect('note.company', 'company')
-      .leftJoinAndSelect('note.service', 'service')
+      .leftJoinAndSelect('note.contact', 'contact')
       .getMany();
 
     return returnNotes;
@@ -76,7 +77,7 @@ export class NoteService {
       .createQueryBuilder('note')
       .leftJoinAndSelect('note.maintenanceRec', 'maintenanceRec')
       .leftJoinAndSelect('note.company', 'company')
-      .leftJoinAndSelect('note.service', 'service')
+      .leftJoinAndSelect('note.contact', 'contact')
       .where("note.id = :id", {id: id})
       .getMany();
 
@@ -106,13 +107,21 @@ export class NoteService {
     newNote.model = createNoteParams.model;
     newNote.price = createNoteParams.price;
     newNote.maintenanceRec = [];
-    newNote.service = await this.contactService.getContactByID(createNoteParams.contactID)
+    newNote.contact = await this.contactService.getContactByID(createNoteParams.contactID)
     newNote.company = await this.companyService.getCompanyByID(createNoteParams.companyID)
     newNote.notification = createNoteParams.notification;
     newNote.notificationPeriod = createNoteParams.notificationPeriod;
     newNote.note = createNoteParams.note;
 
     return await this.noteRepository.save(newNote);
+  }
+
+  async updateNoteWithDetail(updateNoteParams: UpdateNoteWithDetailParams): Promise<UpdateResult> {
+    const { id, contactID, companyID,...updateNote} = updateNoteParams;
+    const contact = await this.contactService.getContactByID(contactID)
+    const company = await this.companyService.getCompanyByID(companyID)
+
+    return await this.noteRepository.update(id,{...updateNote, company, contact});
   }
 
   async updateCompanyNote(addCompanyParams: AddCompanyParams) {
@@ -125,12 +134,12 @@ export class NoteService {
     return await this.noteRepository.save(designateNote);
   }
 
-  async updateServiceNote(addServiceParams: AddServiceParams) {
+  async updateContactNote(addServiceParams: AddServiceParams) {
     var designateNote = await this.getNoteByID(addServiceParams.noteID);
     var designateContact = await this.contactService.getContactByID(
       addServiceParams.contactID,
     );
-    designateNote.service = designateContact;
+    designateNote.contact = designateContact;
 
     return await this.noteRepository.save(designateNote);
   }
@@ -162,13 +171,13 @@ export class NoteService {
         '\nDetail : ' +
         currentNote.note +
         '\nContact : ';
-      if (Object.is(currentNote.service, null)) {
+      if (Object.is(currentNote.contact, null)) {
         newMessage =
           newMessage + `\n - lineID: no contact info\n - Tel: no contact info`;
       } else {
         newMessage =
           newMessage +
-          `\n - lineID: ${currentNote.service.lineID}\n - Tel: ${currentNote.service.tel}`;
+          `\n - lineID: ${currentNote.contact.lineID}\n - Tel: ${currentNote.contact.tel}`;
       }
 
       const response = await axios.post(

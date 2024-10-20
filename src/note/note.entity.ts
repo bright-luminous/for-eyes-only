@@ -35,7 +35,7 @@ export class Note {
   company: Company;
 
   @ManyToOne(() => Contact, (contact) => contact.note)
-  service: Contact;
+  contact: Contact;
 
   @OneToMany(() => MaintenanceRec, (maintenanceRec) => maintenanceRec.note, {
     cascade: true,

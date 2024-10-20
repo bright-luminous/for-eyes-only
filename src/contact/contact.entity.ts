@@ -16,7 +16,7 @@ export class Contact {
   @Column()
   lineID: string;
 
-  @OneToMany(() => Note, (note) => note.service, {
+  @OneToMany(() => Note, (note) => note.contact, {
     cascade: false,
   })
   note: Note[]

@@ -13,9 +13,21 @@ export const databaseProviders = [
       //   synchronize: true,
       // });
 
+      // const dataSource = new DataSource({
+      //   type: 'mssql',
+      //   host: 'foreyesonly.database.windows.net',
+      //   port: 1433,
+      //   username: 'FEOuser',
+      //   password: 'Eauu0244!',
+      //   database: 'FEO-database',
+      //   entities: [
+      //       __dirname + '/../**/*.entity{.ts,.js}',
+      //   ],
+      //   synchronize: true,
+      // });
       const dataSource = new DataSource({
         type: 'mssql',
-        host: 'foreyesonly.database.windows.net',
+        host: 'localhost',
         port: 1433,
         username: 'FEOuser',
         password: 'Eauu0244!',
@@ -23,6 +35,9 @@ export const databaseProviders = [
         entities: [
             __dirname + '/../**/*.entity{.ts,.js}',
         ],
+        options: {
+          trustServerCertificate: true
+        },
         synchronize: true,
       });
 

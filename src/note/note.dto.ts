@@ -23,6 +23,20 @@ export class CreateNoteWithDetailParams {
     note: string;
   }
 
+export class UpdateNoteWithDetailParams {
+    id: string;
+    noteName: string;
+    type: string;
+    brand: string;
+    model: string;
+    price: number;
+    contactID: string
+    companyID: string;
+    notification: Date;
+    notificationPeriod: number;
+    note: string;
+}
+
 export class AddCompanyParams {
     noteID: string;
     companyID: string;

@@ -1,6 +1,6 @@
 import { Body, Controller, Delete, Get, Post, Put, Query } from '@nestjs/common';
 import { NoteService } from './note.service';
-import { AddCompanyParams, AddServiceParams, CreateNoteParams, CreateNoteWithDetailParams } from './note.dto';
+import { AddCompanyParams, AddServiceParams, CreateNoteParams, CreateNoteWithDetailParams, UpdateNoteWithDetailParams } from './note.dto';
 
 @Controller('note')
 export class NoteController {
@@ -23,7 +23,7 @@ export class NoteController {
 
   @Get('service')
   getNoteWithService() {
-    return this.noteService.getNoteWithService();
+    return this.noteService.getNoteWithContact();
   }
 
   @Get('full')
@@ -46,14 +46,19 @@ export class NoteController {
     return this.noteService.createNoteWithDetail(createNoteParams);
   }
 
+  @Put('detail')
+  async updateNoteWithDetail(@Body() updateNoteParams: UpdateNoteWithDetailParams){
+    return this.noteService.updateNoteWithDetail(updateNoteParams);
+  }
+
   @Put('company')
   async updateCompanyNote(@Body() addCompanyParams: AddCompanyParams){
     return this.noteService.updateCompanyNote(addCompanyParams);
   }
 
-  @Put('service')
-  async updateServiceNote(@Body() addServiceParams: AddServiceParams){
-    return this.noteService.updateServiceNote(addServiceParams);
+  @Put('contact')
+  async updateContactNote(@Body() addServiceParams: AddServiceParams){
+    return this.noteService.updateContactNote(addServiceParams);
   }
 
   @Delete()
